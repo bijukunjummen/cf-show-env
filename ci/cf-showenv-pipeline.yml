@@ -1,13 +1,11 @@
 plan:
-- get: sample-spring-turbine-amqp
+- get: cf-show-env
 - task: build-bin
-  file: ci/build.yml
-
-
+  file: cf-show-env/ci/build.yml
 
 resources:
-- name: sample-spring-turbine-amqp
+- name: cf-show-env
   type: git
   source:
-    uri: git@github.com:bijukunjummen/sample-spring-turbine-amqp.git
+    uri: git@github.com:bijukunjummen/cf-show-env.git
     branch: master

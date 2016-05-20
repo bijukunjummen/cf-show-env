@@ -9,9 +9,9 @@ image_resource:
     tag: 'latest'
 
 inputs:
-- name: sample-spring-turbine-amqp
+- name: cf-show-env
 
 run:
-  path: mvn
+  path: gradlew
   args: ['clean', 'build']
-  dir: clean package
+  dir: cf-show-env/
