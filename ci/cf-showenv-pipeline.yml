@@ -1,0 +1,13 @@
+plan:
+- get: sample-spring-turbine-amqp
+- task: build-bin
+  file: ci/build.yml
+
+
+
+resources:
+- name: sample-spring-turbine-amqp
+  type: git
+  source:
+    uri: git@github.com:bijukunjummen/sample-spring-turbine-amqp.git
+    branch: master

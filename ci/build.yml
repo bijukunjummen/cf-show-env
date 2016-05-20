@@ -1,0 +1,17 @@
+---
+
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: '1science/gradle'
+    tag: 'latest'
+
+inputs:
+- name: sample-spring-turbine-amqp
+
+run:
+  path: mvn
+  args: ['clean', 'build']
+  dir: clean package

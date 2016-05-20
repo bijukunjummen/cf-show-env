@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/sitelayout">
+<head>
+    <title>CF Environment</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="well well-small">CF Environment</h1>
+        </div>
+    </div>
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <hr/>
+                    <div class="col-xs-2">
+                        <h3>VCAP_APPLICATION</h3>
+                    </div>
+                    <div class="col-xs-10">
+                        <textarea class="form-control" th:text="${cfapp}" rows="10" >Some Title</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <hr/>
+                    <div class="col-xs-2">
+                        <h3>VCAP_SERVICE</h3>
+                    </div>
+                    <div class="col-xs-10">
+                        <textarea class="form-control" th:text="${cfservices}" rows="10" >Some Title</textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <hr/>
+                    <div class="col-xs-2">
+                        <h3>Active Spring Profiles</h3>
+                    </div>
+                    <div class="col-xs-10">
+                        <table class="table table-striped">
+                            <tr th:each="p : ${activeProfiles}">
+                                <td th:text="${p}">profile</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <hr/>
+                    <div class="col-xs-2">
+                        <h3>CF Environment</h3>
+                    </div>
+                    <div class="col-xs-10">
+                        <table class="table table-striped">
+                            <tr th:each="env : ${cfenvs}">
+                                <td th:text="${env.key}">name</td>
+                                <td th:text="${env.value}">val</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
