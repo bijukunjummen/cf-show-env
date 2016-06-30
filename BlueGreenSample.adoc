@@ -1,0 +1,14 @@
+[source]
+----
+./gradlew cf-push -Pcf.name=Blue -Pcf.hostName=demo-time
+
+./gradlew cf-push -Pcf.name=Green -Pcf.hostName=demo-time-temp
+
+./gradlew cf-map-route -Pcf.name=Green -Pcf.hostName=demo-time
+
+./gradlew cf-unmap-route -Pcf.name=Green -Pcf.hostName=demo-time-temp
+
+./gradlew cf-delete-app -Pcf.name=Blue
+
+./gradlew cf-delete-route -Pcf.hostName=demo-time-temp
+----

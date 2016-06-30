@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '1.4.0.M2'
-		cfPushVersion = '1.0.0-SNAPSHOT'
+		cfPushVersion = '1.0.0-cached'
 	}
 	repositories {
 		mavenLocal()
@@ -17,18 +17,18 @@ buildscript {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("io.pivotal.services:cf-push-gradle-plugin:${cfPushVersion}")
 
-//		//Transitive dependencies of cf push plugin..will be correctly resolved if using a proper repo..
-//		classpath('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.4.3')
-//		classpath("org.cloudfoundry:cloudfoundry-client-spring:2.0.0.BUILD-SNAPSHOT") {
-//			exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
-//			exclude group: "com.fasterxml.jackson.datatype", module: "jackson-datatype-jdk8"
-//		}
-//		classpath("org.cloudfoundry:cloudfoundry-operations:2.0.0.BUILD-SNAPSHOT"){
-//			exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
-//			exclude group: "com.fasterxml.jackson.datatype", module: "jackson-datatype-jdk8"
-//		}
-//		classpath("io.projectreactor:reactor-core:2.5.0.BUILD-SNAPSHOT")
-//		classpath("io.projectreactor:reactor-netty:2.5.0.BUILD-SNAPSHOT")
+		//Transitive dependencies of cf push plugin..will be correctly resolved if using a proper repo..
+		classpath('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.4.3')
+		classpath("org.cloudfoundry:cloudfoundry-client-spring:2.0.0.BUILD-SNAPSHOT") {
+			exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
+			exclude group: "com.fasterxml.jackson.datatype", module: "jackson-datatype-jdk8"
+		}
+		classpath("org.cloudfoundry:cloudfoundry-operations:2.0.0.BUILD-SNAPSHOT"){
+			exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
+			exclude group: "com.fasterxml.jackson.datatype", module: "jackson-datatype-jdk8"
+		}
+		classpath("io.projectreactor:reactor-core:2.5.0.BUILD-SNAPSHOT")
+		classpath("io.projectreactor:reactor-netty:2.5.0.BUILD-SNAPSHOT")
 	}
 }
 
