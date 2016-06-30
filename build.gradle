@@ -1,24 +1,45 @@
 buildscript {
 	ext {
 		springBootVersion = '1.4.0.M2'
+		cfPushVersion = '1.0.0-SNAPSHOT'
 	}
 	repositories {
+		mavenLocal()
 		mavenCentral()
 		maven {
 			url 'https://repo.spring.io/libs-milestone'
 		}
+		flatDir {
+			dirs 'externalLibs'
+		}
 	}
 	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath("io.pivotal.services:cf-push-gradle-plugin:${cfPushVersion}")
+
+//		//Transitive dependencies of cf push plugin..will be correctly resolved if using a proper repo..
+//		classpath('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.4.3')
+//		classpath("org.cloudfoundry:cloudfoundry-client-spring:2.0.0.BUILD-SNAPSHOT") {
+//			exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
+//			exclude group: "com.fasterxml.jackson.datatype", module: "jackson-datatype-jdk8"
+//		}
+//		classpath("org.cloudfoundry:cloudfoundry-operations:2.0.0.BUILD-SNAPSHOT"){
+//			exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
+//			exclude group: "com.fasterxml.jackson.datatype", module: "jackson-datatype-jdk8"
+//		}
+//		classpath("io.projectreactor:reactor-core:2.5.0.BUILD-SNAPSHOT")
+//		classpath("io.projectreactor:reactor-netty:2.5.0.BUILD-SNAPSHOT")
 	}
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'spring-boot' 
+apply plugin: 'spring-boot'
+
+apply plugin: 'cf-push'
 
 jar {
-	baseName = 'cf-first-sample'
+	baseName = 'cf-show-env'
 	version = '0.1.2-SNAPSHOT'
 }
 sourceCompatibility = 1.8
@@ -45,11 +66,21 @@ dependencies {
 }
 
 
-eclipse {
-	classpath {
-		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
-		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
-	}
+cfConfig {
+	name = "Blue"
+	hostName = "demo-time"
+	filePath = "build/libs/cf-show-env-0.1.2-SNAPSHOT.jar"
+
+	ccHost = "api.local.pcfdev.io"
+	ccUser = "admin"
+	ccPassword = "admin"
+	org = "pcfdev-org"
+	space = "pcfdev-space"
+	domain = "local.pcfdev.io"
+
+	buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
+	environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
+	services  = ["mydb"]
 }
 
 task wrapper(type: Wrapper) {

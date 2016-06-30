@@ -1,11 +1,15 @@
-plan:
-- get: cf-show-env
-- task: build-bin
-  file: cf-show-env/ci/build.yml
+jobs:
+  - name: cf-show-env-job
+    serial: true
+    public: true
+    plan:
+    - get: cf-show-env
+    - task: build-bin
+      file: cf-show-env/ci/build.yml
 
 resources:
-- name: cf-show-env
-  type: git
-  source:
-    uri: git@github.com:bijukunjummen/cf-show-env.git
-    branch: master
+  - name: cf-show-env
+    type: git
+    source:
+      uri: https://github.com/bijukunjummen/cf-show-env.git
+      branch: master
