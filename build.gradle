@@ -66,8 +66,8 @@ dependencies {
 
 
 cfConfig {
-	name = "Blue"
-	hostName = "demo-time"
+	name = "cf-show-env"
+	hostName = "cf-show-env"
 	filePath = "build/libs/cf-show-env-0.1.2-SNAPSHOT.jar"
 
 	ccHost = "api.local.pcfdev.io"

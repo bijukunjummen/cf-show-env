@@ -1,0 +1,8 @@
+[source]
+----
+./gradlew cf-rename-app -Pcf.newName=old-app-venerable
+
+./gradlew cf-push
+
+./gradlew cf-delete-app -Pcf.name=old-app-venerable
+----
