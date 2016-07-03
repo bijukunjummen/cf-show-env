@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '1.4.0.M2'
-		cfPushVersion = '1.0.0-cached'
+		cfAppVersion = '1.0.0-cached'
 	}
 	repositories {
 		mavenLocal()
@@ -14,7 +14,7 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("io.pivotal.services:cf-push-gradle-plugin:${cfPushVersion}")
+		classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:${cfAppVersion}")
 
 		//Transitive dependencies of cf push plugin..will be correctly resolved if using a proper repo..
 		classpath('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.4.3')
