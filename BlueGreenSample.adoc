@@ -1,14 +1,16 @@
 [source]
 ----
-./gradlew cf-push -Pcf.name=Blue -Pcf.hostName=demo-time
+./gradlew cf-push -Pcf.name=cf-show-env -Pcf.hostName=cf-show-env
 
-./gradlew cf-push -Pcf.name=Green -Pcf.hostName=demo-time-temp
+./gradlew cf-push -Pcf.name=cf-show-env-green -Pcf.hostName=cf-show-env-temp
 
-./gradlew cf-map-route -Pcf.name=Green -Pcf.hostName=demo-time
+./gradlew cf-map-route -Pcf.name=cf-show-env-green -Pcf.hostName=cf-show-env
 
-./gradlew cf-unmap-route -Pcf.name=Green -Pcf.hostName=demo-time-temp
+./gradlew cf-unmap-route -Pcf.name=cf-show-env-green -Pcf.hostName=cf-show-env-temp
 
-./gradlew cf-delete-app -Pcf.name=Blue
+./gradlew cf-delete-app -Pcf.name=cf-show-env
 
-./gradlew cf-delete-route -Pcf.hostName=demo-time-temp
+./gradlew cf-delete-route -Pcf.hostName=cf-show-env-temp
+
+./gradlew cf-rename-app -Pcf.name=cf-show-env-temp -Pcf.newName=cf-show-env
 ----

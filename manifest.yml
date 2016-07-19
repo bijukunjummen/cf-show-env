@@ -5,3 +5,4 @@ applications:
     memory: 512M
 
 buildpack: https://github.com/cloudfoundry/java-buildpack.git
+# buildpack: java_buildpack_offline

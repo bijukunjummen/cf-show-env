@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '1.4.0.M2'
-		cfAppVersion = '1.0.0-cached'
+		cfAppVersion = '1.0.1.RC1'
 	}
 	repositories {
 		mavenLocal()
@@ -15,19 +15,6 @@ buildscript {
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 		classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:${cfAppVersion}")
-
-		//Transitive dependencies of cf push plugin..will be correctly resolved if using a proper repo..
-		classpath('com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.4.3')
-		classpath("org.cloudfoundry:cloudfoundry-client-spring:2.0.0.BUILD-SNAPSHOT") {
-			exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
-			exclude group: "com.fasterxml.jackson.datatype", module: "jackson-datatype-jdk8"
-		}
-		classpath("org.cloudfoundry:cloudfoundry-operations:2.0.0.BUILD-SNAPSHOT"){
-			exclude group: "com.fasterxml.jackson.core", module: "jackson-databind"
-			exclude group: "com.fasterxml.jackson.datatype", module: "jackson-datatype-jdk8"
-		}
-		classpath("io.projectreactor:reactor-core:2.5.0.BUILD-SNAPSHOT")
-		classpath("io.projectreactor:reactor-netty:2.5.0.BUILD-SNAPSHOT")
 	}
 }
 
@@ -35,7 +22,31 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'spring-boot'
 
-apply plugin: 'cf-push'
+apply plugin: 'cf-app'
+
+cfConfig {
+	//CF Details
+	ccHost = "api.local.pcfdev.io"
+	ccUser = "admin"
+	ccPassword = "admin"
+	org = "pcfdev-org"
+	space = "pcfdev-space"
+
+	//App Details
+	name = "cf-show-env"
+	hostName = "cf-show-env"
+	filePath = "build/libs/cf-show-env-0.1.2-SNAPSHOT.jar"
+	path = ""
+	domain = "local.pcfdev.io"
+	instances = 2
+	memory = 512
+
+	//Env and services
+	buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
+
+	environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
+//	services  = ["mydb"]
+}
 
 jar {
 	baseName = 'cf-show-env'
@@ -61,25 +72,12 @@ dependencies {
 	compile("org.webjars:bootstrap:3.3.6")
 	compile("org.webjars:jquery:2.2.3")
 	compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
-	testCompile('org.springframework.boot:spring-boot-starter-test') 
+	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 
-cfConfig {
-	name = "cf-show-env"
-	hostName = "cf-show-env"
-	filePath = "build/libs/cf-show-env-0.1.2-SNAPSHOT.jar"
-
-	ccHost = "api.local.pcfdev.io"
-	ccUser = "admin"
-	ccPassword = "admin"
-	org = "pcfdev-org"
-	space = "pcfdev-space"
-	domain = "local.pcfdev.io"
-
-	buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
-	environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
-	services  = ["mydb"]
+task showAppUrls(dependsOn: "cf-get-app-detail") << {
+	print "${project.cfConfig.applicationDetail.urls}"
 }
 
 task wrapper(type: Wrapper) {
