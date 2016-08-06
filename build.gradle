@@ -38,13 +38,13 @@ cfConfig {
 	filePath = "build/libs/cf-show-env-0.1.3-SNAPSHOT.jar"
 	path = ""
 	domain = "local.pcfdev.io"
-	instances = 1
+	instances = 2
 	memory = 512
 	timeout = 180
 
 	//Env and services
-//	buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
-	buildpack = "java_buildpack"
+	buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
+//	buildpack = "java_buildpack"
 
 	environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
 //	services  = ["mydb"]
