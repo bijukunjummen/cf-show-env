@@ -1,12 +1,12 @@
 buildscript {
 	ext {
-		springBootVersion = '1.3.5.RELEASE'
-		cfAppVersion = '1.0.1.RC2'
+		springBootVersion = '1.4.0.RELEASE'
+		cfAppVersion = '1.0.2.RC1'
 	}
 	repositories {
 //		mavenLocal()
 		mavenCentral()
-		maven { url "https://oss.sonatype.org/content/repositories/releases" }
+//		maven { url "https://oss.sonatype.org/content/repositories/releases" }
 		maven { url "https://repo.spring.io/snapshot" }
 		maven { url "https://repo.spring.io/milestone" }
 	}
@@ -22,6 +22,8 @@ apply plugin: 'spring-boot'
 
 apply plugin: 'cf-app'
 
+"cf-push-blue-green-1"{finalizedBy "test"}
+
 cfConfig {
 	//CF Details
 	ccHost = "api.local.pcfdev.io"
@@ -33,14 +35,16 @@ cfConfig {
 	//App Details
 	name = "cf-show-env"
 	hostName = "cf-show-env"
-	filePath = "build/libs/cf-show-env-0.1.2-SNAPSHOT.jar"
+	filePath = "build/libs/cf-show-env-0.1.3-SNAPSHOT.jar"
 	path = ""
 	domain = "local.pcfdev.io"
-	instances = 2
+	instances = 1
 	memory = 512
+	timeout = 180
 
 	//Env and services
-	buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
+//	buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
+	buildpack = "java_buildpack"
 
 	environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
 //	services  = ["mydb"]
@@ -48,7 +52,7 @@ cfConfig {
 
 jar {
 	baseName = 'cf-show-env'
-	version = '0.1.2-SNAPSHOT'
+	version = '0.1.3-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
