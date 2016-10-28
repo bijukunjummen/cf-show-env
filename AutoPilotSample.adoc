@@ -1,8 +1,0 @@
-[source]
-----
-./gradlew cf-rename-app -Pcf.newName=cf-show-env-venerable
-
-./gradlew cf-push
-
-./gradlew cf-delete-app -Pcf.name=cf-show-env-venerable
-----
