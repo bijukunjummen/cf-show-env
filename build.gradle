@@ -1,7 +1,7 @@
 buildscript {
 	ext {
-		springBootVersion = '1.4.0.RELEASE'
-		cfAppVersion = '1.0.4.RELEASE'
+		springBootVersion = '1.4.2.RELEASE'
+		cfAppVersion = '1.0.5-RC-1'
 	}
 	repositories {
 //		mavenLocal()
@@ -19,7 +19,7 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'spring-boot'
+apply plugin: 'org.springframework.boot'
 
 apply plugin: 'cf-app'
 
@@ -73,15 +73,15 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('com.google.guava:guava:19.0')
-	compile("org.webjars:bootstrap:3.3.6")
-	compile("org.webjars:jquery:2.2.3")
+	compile("org.webjars:bootstrap:3.3.7")
+	compile("org.webjars:jquery:3.1.1")
 	compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 
 task showAppUrls(dependsOn: "cf-get-app-detail") << {
-	print "${project.cfConfig.applicationDetail.urls}"
+	print "${project.cfConfig.applicationDetail}"
 }
 
 task wrapper(type: Wrapper) {
