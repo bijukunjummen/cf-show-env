@@ -1,10 +1,10 @@
 buildscript {
 	ext {
-		springBootVersion = '1.4.2.RELEASE'
-		cfAppVersion = '1.0.5-RC-1'
+		springBootVersion = '1.4.4.RELEASE'
+//		cfAppVersion = '1.0.6-RC-1'
 	}
 	repositories {
-//		mavenLocal()
+		mavenLocal()
 		mavenCentral()
 		maven { url "https://oss.sonatype.org/content/repositories/releases" }
 		maven { url "https://repo.spring.io/release" }
@@ -13,8 +13,12 @@ buildscript {
 	}
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-		classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:${cfAppVersion}")
+//		classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:${cfAppVersion}")
 	}
+}
+
+plugins {
+	id "com.github.pivotalservices.cf-app" version "1.0.6"
 }
 
 apply plugin: 'java'
