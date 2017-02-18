@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '1.4.4.RELEASE'
-//		cfAppVersion = '1.0.6-RC-1'
+//		cfAppVersion = '1.0.7'
 	}
 	repositories {
 		mavenLocal()
@@ -18,7 +18,7 @@ buildscript {
 }
 
 plugins {
-	id "com.github.pivotalservices.cf-app" version "1.0.6"
+	id "com.github.pivotalservices.cf-app" version "1.0.7"
 }
 
 apply plugin: 'java'
