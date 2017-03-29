@@ -1,25 +1,25 @@
 buildscript {
-	ext {
-		springBootVersion = '1.4.4.RELEASE'
-//		cfAppVersion = '1.0.7'
-	}
-	repositories {
-		mavenLocal()
-		mavenCentral()
-		maven { url "https://oss.sonatype.org/content/repositories/releases" }
-		maven { url "https://repo.spring.io/release" }
-		maven { url "https://repo.spring.io/snapshot" }
-		maven { url "https://repo.spring.io/milestone" }
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-//		classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:${cfAppVersion}")
-	}
+    ext {
+        springBootVersion = '1.4.4.RELEASE'
+        cfAppVersion = '1.0.8'
+    }
+    repositories {
+//        mavenLocal()
+        mavenCentral()
+//        maven { url "https://oss.sonatype.org/content/repositories/releases" }
+        maven { url "https://repo.spring.io/release" }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:${cfAppVersion}")
+    }
 }
 
-plugins {
-	id "com.github.pivotalservices.cf-app" version "1.0.7"
-}
+//plugins {
+//	id "com.github.pivotalservices.cf-app" version "1.0.7"
+//}
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -27,67 +27,89 @@ apply plugin: 'org.springframework.boot'
 
 apply plugin: 'cf-app'
 
-"cf-push-blue-green-1"{finalizedBy "test"}
+"cf-push-blue-green-1" { finalizedBy "test" }
 
 cfConfig {
-	//CF Details
-	ccHost = "api.local.pcfdev.io"
-	ccUser = "admin"
-	ccPassword = "admin"
-	org = "pcfdev-org"
-	space = "pcfdev-space"
+    //CF Details
+    ccHost = "api.local.pcfdev.io"
+    ccUser = "admin"
+    ccPassword = "admin"
+    org = "pcfdev-org"
+    space = "pcfdev-space"
 
-	//App Details
-	name = "cf-show-env"
-	hostName = "cf-show-env"
-	filePath = "build/libs/cf-show-env-0.1.3-SNAPSHOT.jar"
-	path = ""
-	domain = "local.pcfdev.io"
-	instances = 2
-	memory = 512
-	timeout = 180
+    //App Details
+    name = "cf-show-env"
+    hostName = "cf-show-env"
+    filePath = "build/libs/cf-show-env-0.1.3-SNAPSHOT.jar"
+    path = ""
+    domain = "local.pcfdev.io"
+    instances = 2
+    memory = 1024
+    timeout = 180
 
-	//Env and services
-	buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
+    //Env and services
+    buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
 //	buildpack = "java_buildpack"
 
-	environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
-//	services  = ["mydb"]
+    environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
+//    services = ["test-db", "test-rabbitmq", "mydb3", "mydb1"]
+
+    cfService {
+        name = "p-mysql"
+        plan = "512mb"
+        instanceName = "test-db"
+
+    }
+    cfService {
+        name = "p-rabbitmq"
+        plan = "standard"
+        instanceName = "test-rabbitmq"
+    }
+    
+    cfUserProvidedService {
+        instanceName = "mydb3"
+        credentials = ["jdbcUri": "someuri"]
+    }
+    
+    cfUserProvidedService {
+        instanceName = "mydb1"
+        credentials = ["jdbcUri": "someuri1"]
+    }
 }
 
 jar {
-	baseName = 'cf-show-env'
-	version = '0.1.3-SNAPSHOT'
+    baseName = 'cf-show-env'
+    version = '0.1.3-SNAPSHOT'
 }
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 repositories {
-	maven {
-		url 'https://repo.spring.io/libs-milestone'
-	}
-	mavenCentral()
+    maven {
+        url 'https://repo.spring.io/libs-milestone'
+    }
+    mavenCentral()
 }
 
 
 
 dependencies {
-	compile('org.springframework.boot:spring-boot-starter-actuator')
-	compile('org.springframework.boot:spring-boot-devtools')
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
-	compile('org.springframework.boot:spring-boot-starter-web')
-	compile('com.google.guava:guava:19.0')
-	compile("org.webjars:bootstrap:3.3.7")
-	compile("org.webjars:jquery:3.1.1")
-	compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
-	testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-devtools')
+    compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('com.google.guava:guava:19.0')
+    compile("org.webjars:bootstrap:3.3.7")
+    compile("org.webjars:jquery:3.1.1")
+    compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 
 task showAppUrls(dependsOn: "cf-get-app-detail") << {
-	print "${project.cfConfig.applicationDetail}"
+    print "${project.cfConfig.applicationDetail}"
 }
 
 task wrapper(type: Wrapper) {
-	gradleVersion = '2.12'
+    gradleVersion = '2.12'
 }

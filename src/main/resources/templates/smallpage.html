@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/sitelayout">
+<head>
+    <title>CF Environment</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1 class="well well-small">CF Environment</h1>
+        </div>
+    </div>
+    <div layout:fragment="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <hr/>
+                    <div class="col-xs-2">
+                        <h3>VCAP_APPLICATION</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

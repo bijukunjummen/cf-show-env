@@ -2,6 +2,6 @@
 applications:
   - name: cf-show-env
     path: build/libs/cf-show-env-0.1.3-SNAPSHOT.jar
-    memory: 512M
+    memory: 768M
 
 buildpack: https://github.com/cloudfoundry/java-buildpack.git

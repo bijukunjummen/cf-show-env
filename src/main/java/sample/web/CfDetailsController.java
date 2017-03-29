@@ -11,7 +11,7 @@ public class CfDetailsController {
     @Autowired
     private Environment environment;
 
-    @RequestMapping("/")
+    @RequestMapping(path={"/", "/cfdetails"})
     public String vcapProperties(Model model) {
         model.addAttribute("cfapp", environment.getProperty("VCAP_APPLICATION", "{}"));
         model.addAttribute("cfservices", environment.getProperty("VCAP_SERVICES", "{}"));
