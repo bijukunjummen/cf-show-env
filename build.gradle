@@ -1,36 +1,43 @@
 buildscript {
     ext {
-        springBootVersion = '1.4.4.RELEASE'
-        cfAppVersion = '1.0.8'
+        springBootVersion = '1.5.2.RELEASE'
+        cfAppVersion = '1.0.9'
     }
     repositories {
 //        mavenLocal()
         mavenCentral()
-//        maven { url "https://oss.sonatype.org/content/repositories/releases" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases" }
         maven { url "https://repo.spring.io/release" }
         maven { url "https://repo.spring.io/snapshot" }
         maven { url "https://repo.spring.io/milestone" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:${cfAppVersion}")
+//        classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:${cfAppVersion}")
     }
 }
 
-//plugins {
-//	id "com.github.pivotalservices.cf-app" version "1.0.7"
-//}
+plugins {
+    id "com.gorylenko.gradle-git-properties" version "1.4.17"
+}
+
+plugins {
+	id "com.github.pivotalservices.cf-app" version "1.0.9"
+}
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
-apply plugin: 'cf-app'
+apply from: 'gradle/gatling.gradle'
+
+//apply plugin: 'cf-app'
 
 "cf-push-blue-green-1" { finalizedBy "test" }
 
 cfConfig {
     //CF Details
+//    ccHost = "api.run.pez.pivotal.io"
     ccHost = "api.local.pcfdev.io"
     ccUser = "admin"
     ccPassword = "admin"
@@ -53,28 +60,29 @@ cfConfig {
 
     environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
 //    services = ["test-db", "test-rabbitmq", "mydb3", "mydb1"]
-
-    cfService {
-        name = "p-mysql"
-        plan = "512mb"
-        instanceName = "test-db"
-
-    }
-    cfService {
-        name = "p-rabbitmq"
-        plan = "standard"
-        instanceName = "test-rabbitmq"
-    }
+//
+//    cfService {
+//        name = "p-mysql"
+//        plan = "512mb"
+//        instanceName = "test-db"
+//    }
     
-    cfUserProvidedService {
-        instanceName = "mydb3"
-        credentials = ["jdbcUri": "someuri"]
-    }
-    
-    cfUserProvidedService {
-        instanceName = "mydb1"
-        credentials = ["jdbcUri": "someuri1"]
-    }
+//    cfService {
+//        name = "p-rabbitmq"
+//        plan = "standard"
+//        instanceName = "test-rabbitmq"
+//    }
+//    
+//    cfService {
+//        name = "p-service-registry "
+//        plan = "standard"
+//        instanceName = "test-service-registry"
+//    }
+//    
+//    cfUserProvidedService {
+//        instanceName = "mydb1"
+//        credentials = ["jdbcUri": "someuri1"]
+//    }
 }
 
 jar {
