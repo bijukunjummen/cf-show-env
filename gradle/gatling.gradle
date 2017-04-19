@@ -26,9 +26,9 @@ task gatlingRun(type: JavaExec) {
     classpath = sourceSets.simulations.runtimeClasspath + configurations.gatling
     
     main = "io.gatling.app.Gatling"
-    args = Eval.me("['-s', 'simulations.SimpleSimulation '," +
-            " '-sf', 'src/simulations/resources'," +
-            " '-df', 'src/simulations/resources'," +
-            "'-rf', '${buildDir}/reports/gatling']"
-    )
+    args = ['-s', 'simulations.SimpleSimulation',
+            '-sf', 'src/simulations/resources',
+            '-df', 'src/simulations/resources',
+            '-rf', "${buildDir}/reports/gatling"
+    ]
 }
