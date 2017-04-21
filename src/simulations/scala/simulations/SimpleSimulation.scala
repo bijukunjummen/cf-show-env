@@ -5,7 +5,7 @@ import io.gatling.http.Predef._
 
 class SimpleSimulation extends Simulation {
 
-  val baseUrl = s"http://cf-show-env.cfapps.io";
+  val baseUrl = s"http://localhost:8080";
 
   val httpConf = http.baseURL(baseUrl)
 
