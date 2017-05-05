@@ -12,8 +12,12 @@ dependencies {
 
 sourceSets {
     simulations {
-        scala
-        resources
+        scala {
+            srcDirs = ['simulations/load']
+        }
+        resources {
+            srcDirs = ['simulations/resources']
+        }
 
         compileClasspath += configurations.gatling
     }
@@ -27,8 +31,8 @@ task gatlingRun(type: JavaExec) {
     
     main = "io.gatling.app.Gatling"
     args = ['-s', 'simulations.SimpleSimulation',
-            '-sf', 'src/simulations/resources',
-            '-df', 'src/simulations/resources',
+            '-sf', 'simulations/resources',
+            '-df', 'simulations/resources',
             '-rf', "${buildDir}/reports/gatling"
     ]
 }

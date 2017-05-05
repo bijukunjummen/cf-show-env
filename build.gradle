@@ -40,7 +40,9 @@ springBoot {
 }
 
 
-
+ext {
+    prometheus_client_version = "0.0.21"
+}
 //apply plugin: 'cf-app'
 
 "cf-push-blue-green-1" { finalizedBy "test" }
@@ -115,6 +117,8 @@ dependencies {
     compile('com.google.guava:guava:19.0')
     compile("org.webjars:bootstrap:3.3.7")
     compile("org.webjars:jquery:3.1.1")
+    compile("io.prometheus:simpleclient:${prometheus_client_version}")
+    compile("io.prometheus:simpleclient_spring_boot:${prometheus_client_version}")
     compile('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
