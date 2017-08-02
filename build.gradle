@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '1.5.2.RELEASE'
+        springBootVersion = '1.5.6.RELEASE'
         cfAppVersion = '1.0.9'
     }
     repositories {
@@ -34,6 +34,12 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply from: 'gradle/gatling.gradle'
 apply plugin: 'maven'
+//apply plugin: 'war'
+
+//war {
+//    baseName = 'cf-show-env'
+//    version =  '0.5.0'
+//}
 
 springBoot {
     buildInfo()
@@ -114,6 +120,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-devtools')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
+//    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     compile('com.google.guava:guava:19.0')
     compile("org.webjars:bootstrap:3.3.7")
     compile("org.webjars:jquery:3.1.1")

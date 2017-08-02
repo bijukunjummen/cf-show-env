@@ -1,3 +1,7 @@
 logging:
   level:
     root: INFO
+    
+management:
+  security:
+    enabled: false
