@@ -55,7 +55,6 @@ ext {
 
 cfConfig {
     //CF Details
-//    ccHost = "api.run.pez.pivotal.io"
     ccHost = "api.local.pcfdev.io"
     ccUser = "admin"
     ccPassword = "admin"
