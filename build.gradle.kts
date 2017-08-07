@@ -1,5 +1,6 @@
 import io.pivotal.services.plugin.CfPluginExtension
 import io.pivotal.services.plugin.CfService
+import io.pivotal.services.plugin.CfUserProvidedService
 
 buildscript {
     repositories {
@@ -66,6 +67,14 @@ configure< CfPluginExtension> {
         name = "p-mysql"
         plan = "512mb"
         instanceName = "test-db"
+    })
+    
+    cfUserProvidedService(closureOf<CfUserProvidedService> { 
+        instanceName = "myups"
+        credentials = mapOf(
+                "user" to "someuser",
+                "uri" to "someuri"
+        )
     })
 
 }
