@@ -35,6 +35,7 @@ apply {
     plugin("kotlin")
     plugin("org.springframework.boot")
     plugin("java")
+    from("gradle/gatling.gradle")
 }
 
 configure< CfPluginExtension> {
@@ -78,8 +79,11 @@ configure< CfPluginExtension> {
     })
 
 }
+
+
 dependencies {
     val prometheus_client_version = "0.0.21"
+
     compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
