@@ -30,21 +30,13 @@ group = "org.bk.cf"
 
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply from: 'gradle/gatling.gradle'
-apply plugin: 'maven'
-//apply plugin: 'war'
 
-//war {
-//    baseName = 'cf-show-env'
-//    version =  '0.5.0'
-//}
 
 springBoot {
     buildInfo()
 }
-
 
 ext {
     prometheus_client_version = "0.0.21"
@@ -119,7 +111,6 @@ dependencies {
     compile('org.springframework.boot:spring-boot-devtools')
     compile('org.springframework.boot:spring-boot-starter-thymeleaf')
     compile('org.springframework.boot:spring-boot-starter-web')
-//    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     compile('com.google.guava:guava:19.0')
     compile("org.webjars:bootstrap:3.3.7")
     compile("org.webjars:jquery:3.1.1")
@@ -136,4 +127,11 @@ task showAppUrls(dependsOn: "cf-get-app-detail") << {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.12'
+}
+
+
+task "hello-world" {
+    doLast {
+        println("Hello World")
+    }
 }

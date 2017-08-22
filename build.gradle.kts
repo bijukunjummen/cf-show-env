@@ -96,3 +96,15 @@ dependencies {
     compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
+
+val cfConfig by project
+
+task("showAppUrls").dependsOn("cf-get-app-detail").doLast {
+       println(cfConfig);
+}
+
+task("hello-world") {
+    doLast {
+        println("Hello World")
+    }
+}
