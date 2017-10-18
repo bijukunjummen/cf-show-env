@@ -6,6 +6,7 @@ buildscript {
     repositories {
         mavenCentral()
         jcenter()
+        maven { setUrl("https://oss.sonatype.org/content/repositories/releases") }
         maven { setUrl("https://repo.spring.io/milestone") }
         maven { setUrl("https://repo.spring.io/snapshot") }
         maven { setUrl("https://dl.bintray.com/kotlin/kotlin-eap-1.1") }
@@ -17,6 +18,7 @@ buildscript {
         classpath("com.github.jengelman.gradle.plugins:shadow:2.0.1")
         classpath("org.junit.platform:junit-platform-gradle-plugin:1.0.0-RC2")
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.6.RELEASE")
+//        classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:2.0.0-RC1")
     }
 }
 
@@ -28,7 +30,7 @@ repositories {
 }
 
 plugins {
-    id("com.github.pivotalservices.cf-app").version("1.0.9")
+    id("com.github.pivotalservices.cf-app").version("2.0.0-RC1")
 }
 
 apply {
@@ -36,6 +38,7 @@ apply {
     plugin("org.springframework.boot")
     plugin("java")
     from("gradle/gatling.gradle")
+//    plugin("cf-app")
 }
 
 configure< CfPluginExtension> {
@@ -45,13 +48,14 @@ configure< CfPluginExtension> {
     ccPassword = "admin"
     org = "pcfdev-org"
     space = "pcfdev-space"
-
+    
     //App Details
     name = "cf-show-env"
-    hostName = "cf-show-env"
+    host = "cf-show-env"
     filePath = "build/libs/cf-show-env-1.0.0-M1.jar"
     path = ""
-    domain = "local.pcfdev.io"
+//    domain = "local.pcfdev.io"
+    domain = "cfapps.io"
     instances = 2
     memory = 1024
     timeout = 180
@@ -64,11 +68,11 @@ configure< CfPluginExtension> {
             "SPRING_PROFILES_ACTIVE" to "cloud"
     )
 
-    cfService(closureOf<CfService> {
-        name = "p-mysql"
-        plan = "512mb"
-        instanceName = "test-db"
-    })
+//    cfService(closureOf<CfService> {
+//        name = "p-mysql"
+//        plan = "512mb"
+//        instanceName = "test-db"
+//    })
     
     cfUserProvidedService(closureOf<CfUserProvidedService> { 
         instanceName = "myups"
