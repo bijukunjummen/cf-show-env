@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        cfAppVersion = '2.0.0-RC1'
+        cfAppVersion = '2.2.0-rc.2'
     }
     repositories {
         mavenCentral()
@@ -16,8 +16,10 @@ buildscript {
 
 
 plugins {
-	id "com.github.pivotalservices.cf-app" version "2.0.0-RC1"
+	id "com.github.pivotalservices.cf-app" version "2.2.0-rc.2"
 }
+
+
 
 //"cf-push-blue-green-1" { finalizedBy "test" }
 
