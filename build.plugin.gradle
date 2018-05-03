@@ -16,7 +16,7 @@ buildscript {
 
 
 plugins {
-	id "com.github.pivotalservices.cf-app" version "2.2.0-rc.2"
+	id "com.github.pivotalservices.cf-app" version "2.2.0-rc.6"
 }
 
 
