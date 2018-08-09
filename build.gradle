@@ -1,0 +1,136 @@
+buildscript {
+    ext {
+        cfAppVersion = '2.3.0-rc.2'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven { url "https://oss.sonatype.org/content/repositories/releases" }
+        maven { url "https://repo.spring.io/release" }
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("com.github.pivotalservices:ya-cf-app-gradle-plugin:${cfAppVersion}")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.4.RELEASE")
+    }
+}
+
+apply plugin: 'cf-app'
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+// plugins {
+// 	id "com.github.pivotalservices.cf-app" version "2.3.0-rc.2"
+// }
+
+
+
+"cf-push-blue-green-1" { finalizedBy "showAppUrls" }
+
+cfConfig {
+    //CF Details
+    ccHost = "api.run.pivotal.io"
+    ccUser = pwsUser
+    ccPassword = pwsPassword
+    org = "pivot-bkunjummen"
+    space = "development"
+
+    //App Details
+    name = "cf-show-env"
+    // host = "cf-show-env"
+    filePath = "build/libs/cf-show-env-1.0.0-M1.jar"
+    path = ""
+    // domain = "cfapps.io"
+    instances = 1
+    memory = 1024
+    timeout = 180
+
+    routes = ["cf-show-env.cfapps.io"]
+
+    //Env and services
+    buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
+//	buildpack = "java_buildpack"
+
+    environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
+}
+
+
+// cfConfig {
+//     //CF Details
+//     ccHost = "api.local.pcfdev.io"
+//     ccUser = "admin"
+//     ccPassword = "admin"
+//     org = "pcfdev-org"
+//     space = "pcfdev-space"
+
+//     //App Details
+//     name = "cf-show-env"
+//     host = "cf-show-env"
+//     filePath = "build/libs/cf-show-env-1.0.0-M1.jar"
+//     path = ""
+//     domain = "local.pcfdev.io"
+//     instances = 2
+//     memory = 1024
+//     timeout = 180
+
+//     //Env and services
+//     buildpack = "https://github.com/cloudfoundry/java-buildpack.git"
+// //	buildpack = "java_buildpack"
+
+//     environment = ["JAVA_OPTS": "-Djava.security.egd=file:/dev/./urandom", "SPRING_PROFILES_ACTIVE": "cloud"]
+// //    services = ["test-db", "test-rabbitmq", "mydb3", "mydb1"]
+// //
+// //    cfService {
+// //        name = "p-mysql"
+// //        plan = "512mb"
+// //        instanceName = "test-db"
+// //    }
+
+// //    cfService {
+// //        name = "p-rabbitmq"
+// //        plan = "standard"
+// //        instanceName = "test-rabbitmq"
+// //    }
+// //    
+// //    cfService {
+// //        name = "p-service-registry "
+// //        plan = "standard"
+// //        instanceName = "test-service-registry"
+// //    }
+// //    
+// //    cfUserProvidedService {
+// //        instanceName = "mydb1"
+// //        credentials = ["jdbcUri": "someuri1"]
+// //    }
+// }
+
+
+task showAppUrls(dependsOn: "cf-get-app-detail")  {
+    doLast {
+        print "Should test against: ${project.cfConfig.applicationDetail.urls[0]}"
+    }
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    testCompile('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: "junit", module: "junit"
+    }
+    testCompile('io.projectreactor:reactor-test')
+    testCompile("org.junit.jupiter:junit-jupiter-api")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine")    
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/releases" }
+    maven { url "https://repo.spring.io/release" }
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
